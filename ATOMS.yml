@@ -1,39 +1,30 @@
 # ATOMS.yml — catalog manifest for plugin-atoms
 #
-# See https://github.com/convergent-systems-co/atoms-spec for the canonical schema this conforms to.
+# Conforms to: https://schema-atoms.com/
+# spec_version: atoms-spec/v1.1.0
 
+spec_version: atoms-spec/v1.1.0
 name: plugin-atoms
 version: 0.1.0
-spec: atoms-spec/v1
-domain: plugin-atoms.com
-ecosystem:
-  federation: xdao.co
-  redirect: plugin.xdao.co
-
-purpose: |
+canonical_domain: plugin-atoms.com
+federation: convergent-systems.co
+description: |
   Plugin interface standards — not implementations — making plugins ecosystem-portable across Convergent Systems runtimes. USB-C for software plugins.
-
-atomTypes:
+atom_types:
   - interface-contract
   - capability-declaration
   - permission-scope
   - lifecycle-hook
   - trust-primitive
-
-compositionType: conventions
-compositionDir: conventions
-
-ruleTypes:
-  - capability-grant
-  - semver-compatibility
-  - trust-chain-verification
-
-runtimeConsumers:
+composition_type: conventions
+composition_dir: conventions
+runtime_consumers:
   - aish
   - olympus
   - universal-bus
-
-license: Apache-2.0
-maintainers:
-  - name: Convergent Systems
-    contact: maintainers@xdao.co
+lifecycle:
+  current: draft
+licensing:
+  code: Apache-2.0
+steward: convergent-systems-co
+infrastructure_operator: convergent-systems-co
