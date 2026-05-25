@@ -1,0 +1,99 @@
+---
+import Base from "../../../layouts/Base.astro";
+import catalog from "../../../../public/exports/catalog.json";
+
+export function getStaticPaths() {
+  return catalog.atoms.map((atom: any) => ({
+    params: { type: atom.type, id: atom.id },
+    props: { atom },
+  }));
+}
+
+const { atom } = Astro.props;
+
+// Pick type-specific payload fields
+const interfaceContract = atom.interface_contract;
+const capabilityDeclaration = atom.capability_declaration;
+const permissionScope = atom.permission_scope;
+const lifecycleHook = atom.lifecycle_hook;
+const trustPrimitive = atom.trust_primitive;
+---
+<Base title={atom.name} description={atom.description ?? `${atom.type} atom`}>
+  <p><a href="/atoms/">← All atoms</a></p>
+  <h1>{atom.name}</h1>
+  <p style="color: var(--muted);">
+    <code>{atom.type}</code> · <code>v{atom.version}</code>
+  </p>
+
+  {atom.description && <p>{atom.description}</p>}
+
+  {atom.tags && atom.tags.length > 0 && (
+    <p>
+      Tags: {atom.tags.map((tag: string) => (
+        <span style="display: inline-block; font-size: 0.875rem; background: #f4ece4; padding: 0.125rem 0.5rem; border-radius: 0.25rem; margin-right: 0.25rem;">{tag}</span>
+      ))}
+    </p>
+  )}
+
+  {interfaceContract && (
+    <section>
+      <h2>Interface contract</h2>
+      <dl style="display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1rem;">
+        {interfaceContract.version && (<><dt>Version</dt><dd><code>{interfaceContract.version}</code></dd></>)}
+        {interfaceContract.methods && interfaceContract.methods.length > 0 && (
+          <><dt>Methods</dt><dd>{interfaceContract.methods.map((m: string) => <code style="margin-right: 0.5rem;">{m}</code>)}</dd></>
+        )}
+        {interfaceContract.schema && (<><dt>Schema</dt><dd><a href={interfaceContract.schema}>{interfaceContract.schema}</a></dd></>)}
+      </dl>
+    </section>
+  )}
+
+  {capabilityDeclaration && (
+    <section>
+      <h2>Capability declaration</h2>
+      <dl style="display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1rem;">
+        {capabilityDeclaration.grants && (<><dt>Grants</dt><dd>{capabilityDeclaration.grants.map((g: string) => <code style="margin-right: 0.25rem;">{g}</code>)}</dd></>)}
+        {capabilityDeclaration.requires && (<><dt>Requires</dt><dd>{capabilityDeclaration.requires.map((r: string) => <code style="margin-right: 0.25rem;">{r}</code>)}</dd></>)}
+        {capabilityDeclaration.elevation && (<><dt>Elevation</dt><dd><code>{capabilityDeclaration.elevation}</code></dd></>)}
+      </dl>
+    </section>
+  )}
+
+  {permissionScope && (
+    <section>
+      <h2>Permission scope</h2>
+      <dl style="display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1rem;">
+        {permissionScope.read && (<><dt>Read</dt><dd>{permissionScope.read.join(", ")}</dd></>)}
+        {permissionScope.write && (<><dt>Write</dt><dd>{permissionScope.write.join(", ")}</dd></>)}
+        {permissionScope.execute && (<><dt>Execute</dt><dd>{permissionScope.execute.join(", ")}</dd></>)}
+        {permissionScope.deny && (<><dt>Deny</dt><dd>{permissionScope.deny.join(", ")}</dd></>)}
+      </dl>
+    </section>
+  )}
+
+  {lifecycleHook && (
+    <section>
+      <h2>Lifecycle hook</h2>
+      <dl style="display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1rem;">
+        {lifecycleHook.event && (<><dt>Event</dt><dd><code>{lifecycleHook.event}</code></dd></>)}
+        {lifecycleHook.handler && (<><dt>Handler</dt><dd><code>{lifecycleHook.handler}</code></dd></>)}
+        {lifecycleHook.timeout_ms !== undefined && (<><dt>Timeout</dt><dd><code>{lifecycleHook.timeout_ms}ms</code></dd></>)}
+        {lifecycleHook.blocking !== undefined && (<><dt>Blocking</dt><dd>{lifecycleHook.blocking ? "yes" : "no"}</dd></>)}
+      </dl>
+    </section>
+  )}
+
+  {trustPrimitive && (
+    <section>
+      <h2>Trust primitive</h2>
+      <dl style="display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1rem;">
+        {trustPrimitive.level && (<><dt>Level</dt><dd><code>{trustPrimitive.level}</code></dd></>)}
+        {trustPrimitive.verification && (<><dt>Verification</dt><dd><code>{trustPrimitive.verification}</code></dd></>)}
+        {trustPrimitive.attestation && (<><dt>Attestation</dt><dd>{trustPrimitive.attestation}</dd></>)}
+      </dl>
+    </section>
+  )}
+
+  <h2>Raw atom</h2>
+  <p><a href={`/atoms/${atom.type}/${atom.id}.json`}>/atoms/{atom.type}/{atom.id}.json</a> · <a href="/schemas/atom-v1.json">schema</a></p>
+</Base>

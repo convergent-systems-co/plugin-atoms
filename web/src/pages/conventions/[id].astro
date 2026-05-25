@@ -1,0 +1,47 @@
+---
+import Base from "../../layouts/Base.astro";
+import catalog from "../../../public/exports/catalog.json";
+
+export function getStaticPaths() {
+  return catalog.compositions.map((composition: any) => ({
+    params: { id: composition.id },
+    props: { composition },
+  }));
+}
+
+const { composition } = Astro.props;
+const refs = composition.references ?? {};
+---
+<Base title={composition.name} description={composition.description}>
+  <p><a href="/conventions/">← All conventions</a></p>
+  <h1>{composition.name}</h1>
+  <p style="color: var(--muted);">
+    <code>convention</code> · <code>v{composition.version}</code>
+  </p>
+
+  {composition.description && <p>{composition.description}</p>}
+
+  {Object.keys(refs).length > 0 && (
+    <section>
+      <h2>References</h2>
+      {Object.entries(refs).map(([key, val]: [string, any]) => {
+        const values: any[] = Array.isArray(val) ? val : [val];
+        return (
+          <div style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 0.5rem; text-transform: capitalize;">{key.replace(/_/g, " ")}</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+              {values.map((r: any) => (
+                <span style="font-size: 0.875rem; background: #f4ece4; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-family: monospace;">
+                  {r.ref} @ v{r.version}
+                </span>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </section>
+  )}
+
+  <h2>Raw convention</h2>
+  <p><a href={`/conventions/${composition.id}.json`}>/conventions/{composition.id}.json</a> · <a href="/schemas/composition-v1.json">schema</a></p>
+</Base>

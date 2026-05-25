@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="How to use" description="How to consume plugin-atoms in your application.">
+  <h1>How to use plugin-atoms</h1>
+
+  <h2>Read the catalog over HTTPS</h2>
+  <p>Every artifact is served under stable URLs with correct content-types:</p>
+  <pre><code>curl https://plugin-atoms.com/exports/catalog.json
+curl https://plugin-atoms.com/atoms/interface-contract/storage-provider.json
+curl https://plugin-atoms.com/conventions/storage-plugin.json
+curl https://plugin-atoms.com/schemas/composition-v1.json</code></pre>
+
+  <h2>Resolve a plugin convention</h2>
+  <p>A plugin convention lists references to atoms by URI and version. To implement a conformant plugin,
+  fetch each referenced atom and fulfill its requirements: interface contract → capability declarations → permission scopes → lifecycle hooks → trust primitives.</p>
+
+  <pre><code>{`// pseudo-code
+const convention = await fetch("/conventions/storage-plugin.json").then(r => r.json());
+const refs = convention.references;
+const contract = await fetch(uriToUrl(refs.interface_contract.ref)).then(r => r.json());
+const capabilities = await Promise.all(
+  (refs.capabilities ?? []).map(r => fetch(uriToUrl(r.ref)).then(r => r.json()))
+);
+const permissions = await fetch(uriToUrl(refs.permission_scope.ref)).then(r => r.json());
+const hooks = await Promise.all(
+  (refs.lifecycle_hooks ?? []).map(r => fetch(uriToUrl(r.ref)).then(r => r.json()))
+);
+// validate your plugin implementation against the contract
+validatePlugin(myPlugin, { contract, capabilities, permissions, hooks });`}</code></pre>
+
+  <h2>Compatibility rules</h2>
+  <p>Rules in <a href="/exports/catalog.json"><code>/exports/catalog.json</code></a> (under the <code>rules</code>
+  key) declare predicates over atoms. Example: a <code>semver-compatibility</code> rule may require that a
+  plugin's declared version satisfies a minimum interface-contract version. A convention that violates a
+  <code>require</code>-effect rule is malformed.</p>
+
+  <h2>Cross-runtime portability</h2>
+  <p>plugin-atoms ships the catalog and its JSON Schema. Runtime adapters that translate plugin conventions
+  into the native plugin API of specific systems (aish, Olympus, universal-bus) are available separately —
+  they translate <code>interface-contract</code> atoms into the runtime's registration call and bind
+  <code>trust-primitive</code> atoms to the runtime's verification chain.</p>
+</Base>
