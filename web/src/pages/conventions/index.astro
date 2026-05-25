@@ -1,0 +1,25 @@
+---
+import Base from "../../layouts/Base.astro";
+import catalog from "../../../public/exports/catalog.json";
+
+const compositions = catalog.compositions.slice().sort((a: any, b: any) => a.id.localeCompare(b.id));
+---
+<Base title="Conventions" description="Plugin conventions — assembled interface contracts, capability declarations, permission scopes, lifecycle hooks, trust primitives.">
+  <h1>Conventions</h1>
+  <p>{compositions.length} plugin convention{compositions.length === 1 ? "" : "s"} — each assembles atoms into a complete plugin interface definition.</p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap: 1rem; margin-top: 2rem;">
+    {compositions.map((c: any) => (
+      <article style="border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem; background: var(--card);">
+        <header style="margin-bottom: 0.5rem;">
+          <h3 style="margin: 0;"><a href={`/conventions/${c.id}/`}>{c.name}</a></h3>
+          <code style="color: var(--muted); font-size: 0.75rem;">convention · v{c.version}</code>
+        </header>
+        {c.description && <p style="margin: 0.5rem 0; color: var(--muted);">{c.description}</p>}
+      </article>
+    ))}
+    {compositions.length === 0 && (
+      <p style="color: var(--muted);">No conventions yet — catalog seeding in progress.</p>
+    )}
+  </div>
+</Base>
