@@ -1,0 +1,10 @@
+{
+  "schema": "https://plugin-atoms.com/schemas/atom-v1.json",
+  "type": "capability-declaration",
+  "id": "llm-inference",
+  "version": "1.0.0",
+  "name": "LLM Inference Capability",
+  "description": "Capability to invoke a large language model for text generation. Required by all inference plugins.",
+  "trust_level": "standard",
+  "tags": ["inference", "llm", "capability"]
+}

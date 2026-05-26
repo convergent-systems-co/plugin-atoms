@@ -1,0 +1,10 @@
+{
+  "schema": "https://plugin-atoms.com/schemas/atom-v1.json",
+  "type": "interface-contract",
+  "id": "inference-plugin-v1",
+  "version": "1.0.0",
+  "name": "Inference Plugin v1 Interface Contract",
+  "description": "Standard interface contract for LLM inference plugins in the Olympus runtime. Required methods: invoke, stream, count_tokens, supports_tools.",
+  "interface_schema_ref": "https://plugin-atoms.com/docs/inference-plugin-convention",
+  "tags": ["inference", "llm", "plugin", "interface"]
+}

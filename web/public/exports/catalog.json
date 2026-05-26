@@ -1,8 +1,22 @@
 {
   "catalog": "plugin-atoms",
   "version": "0.1.0",
-  "built_at": "2026-05-26T15:46:37+00:00",
+  "built_at": "2026-05-26T17:25:09+00:00",
   "atoms": [
+    {
+      "schema": "https://plugin-atoms.com/schemas/atom-v1.json",
+      "type": "capability-declaration",
+      "id": "llm-inference",
+      "version": "1.0.0",
+      "name": "LLM Inference Capability",
+      "description": "Capability to invoke a large language model for text generation. Required by all inference plugins.",
+      "trust_level": "standard",
+      "tags": [
+        "inference",
+        "llm",
+        "capability"
+      ]
+    },
     {
       "schema": "https://plugin-atoms.com/schemas/atom-v1.json",
       "type": "capability-declaration",
@@ -15,6 +29,21 @@
         "filesystem",
         "io",
         "read-only"
+      ]
+    },
+    {
+      "schema": "https://plugin-atoms.com/schemas/atom-v1.json",
+      "type": "interface-contract",
+      "id": "inference-plugin-v1",
+      "version": "1.0.0",
+      "name": "Inference Plugin v1 Interface Contract",
+      "description": "Standard interface contract for LLM inference plugins in the Olympus runtime. Required methods: invoke, stream, count_tokens, supports_tools.",
+      "interface_schema_ref": "https://plugin-atoms.com/docs/inference-plugin-convention",
+      "tags": [
+        "inference",
+        "llm",
+        "plugin",
+        "interface"
       ]
     },
     {
