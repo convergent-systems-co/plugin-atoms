@@ -1,0 +1,10 @@
+{
+  "schema": "https://plugin-atoms.com/schemas/atom-v1.json",
+  "type": "capability-declaration",
+  "id": "read-filesystem",
+  "version": "1.0.0",
+  "name": "Read Filesystem",
+  "description": "Read files from the filesystem without write access. Required by any plugin that loads config or data files.",
+  "trust_level": "standard",
+  "tags": ["filesystem", "io", "read-only"]
+}

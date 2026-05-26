@@ -1,0 +1,11 @@
+{
+  "schema": "https://plugin-atoms.com/schemas/atom-v1.json",
+  "type": "lifecycle-hook",
+  "id": "on-session-start",
+  "version": "1.0.0",
+  "name": "On Session Start",
+  "description": "Fires when a new session or conversation begins. Plugins use this to load state, verify credentials, or inject context.",
+  "lifecycle_events": ["session:start"],
+  "trust_level": "standard",
+  "tags": ["lifecycle", "session", "init"]
+}

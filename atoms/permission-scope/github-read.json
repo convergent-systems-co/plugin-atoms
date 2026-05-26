@@ -1,0 +1,11 @@
+{
+  "schema": "https://plugin-atoms.com/schemas/atom-v1.json",
+  "type": "permission-scope",
+  "id": "github-read",
+  "version": "1.0.0",
+  "name": "GitHub Read",
+  "description": "Read-only access to GitHub repositories, issues, and PRs via the GitHub REST API",
+  "permissions": ["repo:read", "issues:read", "pulls:read"],
+  "trust_level": "standard",
+  "tags": ["github", "api", "read-only"]
+}
