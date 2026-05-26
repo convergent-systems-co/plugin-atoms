@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plugin-atoms.com/schemas/atom-v1.json",
+  "title": "plugin-atoms v1 atom",
+  "description": "A single atom in the plugin-atoms catalog. Discriminated by the top-level `type` field; one of: interface-contract, capability-declaration, permission-scope, lifecycle-hook, trust-primitive.",
+  "type": "object",
+  "required": ["schema", "type", "id", "version", "name"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "https://plugin-atoms.com/schemas/atom-v1.json"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "interface-contract",
+        "capability-declaration",
+        "permission-scope",
+        "lifecycle-hook",
+        "trust-primitive"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+      "description": "URL-safe slug; unique within the atom's type."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[A-Za-z0-9.-]+)?$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "interface_schema_ref": {
+      "type": "string",
+      "description": "URI reference to the JSON Schema that defines the interface contract surface. Applicable to interface-contract atoms."
+    },
+    "permissions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true,
+      "description": "Permission scope strings granted by this atom. Applicable to permission-scope atoms."
+    },
+    "lifecycle_events": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true,
+      "description": "Lifecycle event identifiers this hook binds to. Applicable to lifecycle-hook atoms."
+    },
+    "trust_level": {
+      "type": "string",
+      "enum": ["anonymous", "standard", "elevated", "system"],
+      "description": "Minimum trust level required to exercise this atom."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 40 },
+      "uniqueItems": true
+    }
+  }
+}
